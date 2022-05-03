@@ -3,14 +3,14 @@
 #include<cstdlib>
 using namespace std;
 
-ofstream fout;  //Êä³öµ½ÎÄ¼ş
+ofstream fout;  //è¾“å‡ºåˆ°æ–‡ä»¶
 
-//ÔËËã·û
+//è¿ç®—ç¬¦
 char sign1[2]={'+', '-'};
 char sign2[2]={'*','/'};
 char sign3[4]={'+', '-','*','/'};
 
-char sign(int x)   //Éú³ÉÔËËã·û
+char sign(int x)   //ç”Ÿæˆè¿ç®—ç¬¦
 {
 	char ch;
 	if(x==1)
@@ -28,7 +28,7 @@ char sign(int x)   //Éú³ÉÔËËã·û
 	return ch;
 }
 
-double randnum(int m,int f)   //Éú³ÉÔËËãÊı
+double randnum(int m,int f)   //ç”Ÿæˆè¿ç®—æ•°
 {
 	if(f==0)
 	{
@@ -44,46 +44,78 @@ double randnum(int m,int f)   //Éú³ÉÔËËãÊı
 	}
 }
 
+int par()
+{
+	int a,f=0;
+	a=rand()%2;
+	if(a==1)
+	{
+		f=1;
+	}
+	return f;
+}
+
 int main()
 {
-	int num;   //ÌâÄ¿ÊıÁ¿
-	int sch;   //ÔËËãĞÎÊ½
-	int max;   //×î´óÖµ
-	int flag1,flag2;  //Ñ¡Ôñ±êÖ¾
-	int out;   //Êä³ö·½Ê½
+	int num;   //é¢˜ç›®æ•°é‡
+	int sch;   //è¿ç®—å½¢å¼
+	int max;   //æœ€å¤§å€¼
+	int flag1,flag2;  //é€‰æ‹©æ ‡å¿—
+	int out;   //è¾“å‡ºæ–¹å¼
 
 	while(1)
 	{
-		cout<<"ÇëÊäÈëÌâÄ¿ÊıÁ¿"<<endl;
+		cout<<"è¯·è¾“å…¥é¢˜ç›®æ•°é‡"<<endl;
 		cin>>num;
-		cout<<"ÇëÑ¡ÔñÔËËã·û£º1.¼Ó¼õÔËËã  2.³Ë³ıÔËËã  3.ËÄÔòÔËËã"<<endl;
+		cout<<"è¯·é€‰æ‹©è¿ç®—ç¬¦ï¼š1.åŠ å‡è¿ç®—  2.ä¹˜é™¤è¿ç®—  3.å››åˆ™è¿ç®—"<<endl;
 		cin>>sch;
-		cout<<"ÇëÉè¶¨ÔËËãÊı×î´óÖµ(Ê®ÒÔÄÚ¡¢°ÙÒÔÄÚµÈ£©"<<endl;
+		cout<<"è¯·è®¾å®šè¿ç®—æ•°æœ€å¤§å€¼(åä»¥å†…ã€ç™¾ä»¥å†…ç­‰ï¼‰"<<endl;
 		cin>>max;
-		cout<<"ÔËËã¹ı³ÌÊÇ·ñ³öÏÖÀ¨ºÅ£º0.·ñ  1.ÊÇ"<<endl;
+		cout<<"è¿ç®—è¿‡ç¨‹æ˜¯å¦å‡ºç°æ‹¬å·ï¼š0.å¦  1.æ˜¯"<<endl;
 		cin>>flag1;
-		cout<<"ÔËËã¹ı³ÌÊÇ·ñ³öÏÖĞ¡Êı£º0.·ñ  1.ÊÇ"<<endl;
+		cout<<"è¿ç®—è¿‡ç¨‹æ˜¯å¦å‡ºç°å°æ•°ï¼š0.å¦  1.æ˜¯"<<endl;
 		cin>>flag2;
-		cout<<"Ñ¡ÔñÊä³ö·½Ê½£º1.Êä³öµ½ÎÄ¼ş  2.Êä³öµ½´òÓ¡»ú"<<endl;
+		cout<<"é€‰æ‹©è¾“å‡ºæ–¹å¼ï¼š1.è¾“å‡ºåˆ°æ–‡ä»¶  2.è¾“å‡ºåˆ°æ‰“å°æœº"<<endl;
 		cin>>out;
 		if(out==1)
 		{
 			fout.open("jst.txt");
 			while(num>0)
 			{ 
-				double n;   //ÔËËãÊı
-				char ch;   //ÔËËã·û
+				double n;   //è¿ç®—æ•°
+				char ch;   //è¿ç®—ç¬¦
+				int f1=-1,f2=-1;   //æ‹¬å·
 				n=randnum(max,flag2);
 				fout<<n;
 				for(int i=0;i<4;i++)
 				{
+					if(f1==3)
+					{
+						f2=0;
+					}
+					if(f1==-1)
+					{
+						f1=par();
+					}
 					ch=sign(sch);
 					fout<<ch;
+					if(f1==1&&i!=3)
+					{
+						fout<<"(";
+						f1=3;
+						f2=1;
+					}
 					n=randnum(max,flag2);
 					fout<<n;
+					if(f2==0)
+					{
+						fout<<")";
+						f1=-1;
+						f2=-1;
+					}
 				}
 				fout<<"="<<endl;
-			num--;
+				num--;
 			}
 			fout.close();
 		}
@@ -91,23 +123,44 @@ int main()
 		{
 			while(num>0)
 			{ 
-				double n;   //ÔËËãÊı
-				char ch;   //ÔËËã·û
+				double n;   //è¿ç®—æ•°
+				char ch;   //è¿ç®—ç¬¦
+				int f1=-1,f2=-1;   //æ‹¬å·
 				n=randnum(max,flag2);
 				cout<<n;
 				for(int i=0;i<4;i++)
 				{
+					if(f1==3)
+					{
+						f2=0;
+					}
+					if(f1==-1)
+					{
+						f1=par();
+					}
 					ch=sign(sch);
 					cout<<ch;
+					if(f1==1&&i!=3)
+					{
+						cout<<"(";
+						f1=3;
+						f2=1;
+					}
 					n=randnum(max,flag2);
 					cout<<n;
+					if(f2==0)
+					{
+						cout<<")";
+						f1=-1;
+						f2=-1;
+					}
 				}
 				cout<<"="<<endl;
-			num--;
+				num--;
 			}
 		}
-		int flag3;   //½áÊø±êÖ¾
-		cout<<"ÊÇ·ñ½áÊø£º0.·ñ  1.ÊÇ"<<endl;
+		int flag3;   //ç»“æŸæ ‡å¿—
+		cout<<"æ˜¯å¦ç»“æŸï¼š0.å¦  1.æ˜¯"<<endl;
 		cin>>flag3;
 		if(flag3==1)
 			break;
